@@ -3,5 +3,6 @@
     public class Staff
     {
         string ID { get; set; }
+        int age { get; set; }
     }
 }
