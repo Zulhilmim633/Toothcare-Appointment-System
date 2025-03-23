@@ -19,6 +19,13 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
+// Ensure the database and tables exist
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ToothcareAppointmentContext>();
+    dbContext.Database.EnsureCreated(); // Creates tables if they do not exist
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
