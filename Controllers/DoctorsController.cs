@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Toothcare_Appointment_System.Data;
 using Toothcare_Appointment_System.Models;
@@ -82,6 +84,8 @@ namespace Toothcare_Appointment_System.Controllers
 
     }
 
+
+    [Authorize]
     [Route("Doctors")]
     public class DoctorsController : Controller
     {
@@ -95,7 +99,28 @@ namespace Toothcare_Appointment_System.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Doctors.ToListAsync());
+            var doctorIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!int.TryParse(doctorIdClaim, out int doctorId))
+            {
+                return Unauthorized(); // ✅ Block unauthorized access
+            }
+
+            return View(await _context.Appointment
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
+                .Where(a => a.Doctor.DoctorID == doctorId)
+                .Select(item => new AppointmentDTO
+                {
+                    AppointmentID = item.AppointmentID,
+                    AppointmentDateTime = item.AppointmentDateTime,
+                    AppointmentReason = item.AppointmentReason,
+                    AppointmentStatus = item.AppointmentStatus,
+                    AppointmentNotes = item.AppointmentNotes,
+                    RoomNumber = item.RoomNumber,
+                    AppointmentType = item.AppointmentType
+                }).ToListAsync()
+            );
         }
 
         // GET: Doctors/Details/1

@@ -4,6 +4,7 @@ using Toothcare_Appointment_System.Models;
 
 namespace Toothcare_Appointment_System.Controllers;
 
+[Route("Home")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -13,14 +14,16 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [HttpGet("")]
     public IActionResult Index()
     {
         return View();
     }
 
+    [HttpGet("Privacy")]
     public IActionResult Privacy()
     {
-        return View();
+        return View("~/Views/Home/Privacy.cshtml");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

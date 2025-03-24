@@ -1,0 +1,47 @@
+﻿@model Toothcare_Appointment_System.Models.Doctors
+
+<h2>Add New Doctor</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="DoctorName" class="control-label">Name</label>
+        <input asp-for="DoctorName" class="form-control" maxlength="250"/>
+        <span asp-validation-for="DoctorName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DoctorPhoneNo" class="control-label">Phone Number</label>
+        <input asp-for="DoctorPhoneNo" class="form-control" type="tel" />
+        <span asp-validation-for="DoctorPhoneNo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DoctorEmail" class="control-label">Email</label>
+        <input asp-for="DoctorEmail" class="form-control" type="email" />
+        <span asp-validation-for="DoctorEmail" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="DoctorLicenseNumber" class="control-label">Email</label>
+        <input asp-for="DoctorLicenseNumber" class="form-control" type="email" />
+        <span asp-validation-for="DoctorLicenseNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DoctorAvailability" class="control-label">Email</label>
+        <input asp-for="DoctorAvailability" class="form-control" type="email" />
+        <span asp-validation-for="DoctorAvailability" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Password</label>
+        <input type="password" class="form-control" />
+        <span class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DoctorPass" class="control-label">Password Comformation</label>
+        <input asp-for="DoctorPass" class="form-control" type="password" />
+        <span asp-validation-for="DoctorPass" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

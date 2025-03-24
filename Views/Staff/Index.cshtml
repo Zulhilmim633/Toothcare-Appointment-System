@@ -1,0 +1,77 @@
+﻿@{
+	var Staff = Model is IEnumerable<Staff>;
+	var appointmentdto = Model is IEnumerable<AppointmentDTO>;
+}
+
+@if (Staff)
+{
+	<h2>Staff List</h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Staff ID</th>
+				<th>Staff Name</th>
+				<th>Staff Phone No</th>
+				<th>Role</th>
+				<th>Staff Email</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var staff in Model)
+			{
+				<tr>
+					<td>STF@(@staff.StaffID)</td>
+					<td>@staff.StaffName</td>
+					<td>@staff.StaffPhoneNo</td>
+					<td>@staff.StaffRole</td>
+					<td>@staff.StaffEmail</td>
+					<td>
+						<a asp-action="View" asp-route-id="@staff.StaffID">View</a> |
+						<a asp-action="Edit" asp-route-id="@staff.StaffID">Edit</a> |
+						<a asp-action="Delete" asp-route-id="@staff.StaffID">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else if (appointmentdto)
+{
+	<h2>Appointment List <a asp-action="Create" asp-controller="Appointments">Create</a></h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Schedule</th>
+				<th>Reason</th>
+				<th>Status</th>
+				<th>Notes</th>
+				<th>Room Number</th>
+				<th>Type</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var appoinment in Model)
+			{
+				<tr>
+					<td>@appoinment.AppointmentDateTime.ToShortDateString()</td>
+					<td>@appoinment.AppointmentReason</td>
+					<td>@appoinment.AppointmentStatus</td>
+					<td>@appoinment.AppointmentNotes</td>
+					<td>@appoinment.RoomNumber</td>
+					<td>@appoinment.AppointmentType</td>
+					<td>
+						<a asp-controller="Appointments" asp-action="View" asp-route-id="@appoinment.AppointmentID">View</a> |
+						<a asp-controller="Appointments" asp-action="Edit" asp-route-id="@appoinment.AppointmentID">Edit</a> |
+						<a asp-controller="Appointments" asp-action="Delete" asp-route-id="@appoinment.AppointmentID">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<h1>@(Model?.GetType())</h1>
+}

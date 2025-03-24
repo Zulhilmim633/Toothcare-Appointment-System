@@ -1,0 +1,44 @@
+﻿@model Toothcare_Appointment_System.Models.Staff
+
+<h2>Register New Staff</h2>
+
+<form asp-controller="Auth" asp-action="RegisterStaff" method="post">
+    <div class="form-group">
+        <label asp-for="StaffName" class="control-label">Name</label>
+        <input asp-for="StaffName" class="form-control" />
+        <span asp-validation-for="StaffName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffPhoneNo" class="control-label">Phone Number</label>
+        <input asp-for="StaffPhoneNo" class="form-control" type="tel" />
+        <span asp-validation-for="StaffPhoneNo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffEmail" class="control-label">Email</label>
+        <input asp-for="StaffEmail" class="form-control" type="email" />
+        <span asp-validation-for="StaffEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffRole" class="control-label">Role</label>
+        <select asp-for="StaffRole" class="form-control">
+            <option value="Receptionist">Receptionist</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <span asp-validation-for="StaffRole" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Password</label>
+        <input type="password" class="form-control" />
+        <span class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StaffPass" class="control-label">Password Comformation</label>
+        <input asp-for="StaffPass" class="form-control" type="password" />
+        <span asp-validation-for="StaffPass" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

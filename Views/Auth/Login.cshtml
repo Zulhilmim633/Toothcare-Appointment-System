@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post">
+    <label>User ID</label>
+    <input type="text" name="id" value="@(TempData["RegisterUserId"])" required />
+
+    <label>Password</label>
+    <input type="password" name="password" required />
+
+    <button type="submit">Login</button>
+    <p style="color: red;">@ViewBag.Error</p>
+
+    <a asp-action="Register" asp-route-id="Staff">Register Staff</a>
+    <a asp-action="Register" asp-route-id="Doctor">Register Doctor</a>
+</form>

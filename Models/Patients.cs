@@ -5,7 +5,9 @@ namespace Toothcare_Appointment_System.Models
     public class Patients
     {
         [Key]
-        public int PatientID { get; set; }
+        [Required]
+        [MaxLength(14)]
+        public string ICNumber { get; set; }
 
         [Required]
         [MaxLength(250)]
@@ -27,7 +29,5 @@ namespace Toothcare_Appointment_System.Models
 
         [Required]
         public string PatientGender { get; set; }
-
-        public ICollection<Appointment> Appointments { get; set; }
     }
 }

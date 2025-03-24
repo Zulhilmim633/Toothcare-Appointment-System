@@ -1,26 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Toothcare_Appointment_System.Models
 {
-    public class Appointment
+    public class AppointmentDTO
     {
         [Key]
         public int AppointmentID { get; set; }
-
-        [Required]
-        public int DoctorID { get; set; } // Stores Doctor's Primary Key
-
-        [ForeignKey("DoctorID")]
-        public Doctors Doctor { get; set; } // Navigation Property
-
-        [Required]
-        [MaxLength(14)]
-        public string ICNumber { get; set; } // Stores Patient's Primary Key
-
-        [ForeignKey("ICNumber")]
-        public Patients Patient { get; set; } // Navigation Property
 
         public DateTime AppointmentDateTime { get; set; }
         public string AppointmentReason { get; set; } // Description of the appointment
@@ -36,5 +22,8 @@ namespace Toothcare_Appointment_System.Models
         public int? AppointmentDuration { get; set; }
 
         public string AppointmentType { get; set; } // consultation, check up, procedure
+
+        public int DoctorID { get; set; }
+        public string ICNumber { get; set; }
     }
 }

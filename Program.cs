@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Toothcare_Appointment_System.Data;
 
@@ -10,12 +11,23 @@ builder.Services.AddControllersWithViews(); // Add this to register MVC services
 builder.Services.AddDbContext<ToothcareAppointmentContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login"; // Redirect to login page if not authenticated
+    });
+
+builder.Services.AddSession();
+builder.Services.AddControllersWithViews()
+    .AddSessionStateTempDataProvider();
+builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
@@ -36,12 +48,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
+app.UseMiddleware<RoleMiddleware>();
 app.UseRouting();
-
+app.UseAuthentication(); // Ensure authentication is used before authorization
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

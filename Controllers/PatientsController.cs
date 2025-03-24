@@ -24,7 +24,7 @@ namespace Toothcare_Appointment_System.Controllers
 
         // GET: api/Patients/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patients>> GetPatients(int id)
+        public async Task<ActionResult<Patients>> GetPatients(string id)
         {
             var patient = await _context.Patients.FindAsync(id);
             if (patient == null)
@@ -40,14 +40,14 @@ namespace Toothcare_Appointment_System.Controllers
         {
             _context.Patients.Add(patient);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetPatients", new { id = patient.PatientID }, patient);
+            return CreatedAtAction("GetPatients", new { id = patient.ICNumber }, patient);
         }
 
         // PUT: api/Patients/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatients(int id, Patients patient)
+        public async Task<IActionResult> PutPatients(string id, Patients patient)
         {
-            if (id != patient.PatientID)
+            if (id != patient.ICNumber)
             {
                 return BadRequest();
             }
@@ -58,7 +58,7 @@ namespace Toothcare_Appointment_System.Controllers
 
         // DELETE: api/Patients/1
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatients(int id)
+        public async Task<IActionResult> DeletePatients(string id)
         {
             var patient = await _context.Patients.FindAsync(id);
             if (patient == null)
@@ -89,13 +89,13 @@ namespace Toothcare_Appointment_System.Controllers
 
         // GET: Patients/Details/1
         [HttpGet("Details/{id}")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.PatientID == id);
+            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.ICNumber == id);
             if (patients == null)
             {
                 return NotFound();
@@ -126,7 +126,7 @@ namespace Toothcare_Appointment_System.Controllers
 
         // GET: Patients/Edit/1
         [HttpGet("Edit/{id}")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
@@ -143,9 +143,9 @@ namespace Toothcare_Appointment_System.Controllers
         // POST: Patients/Edit/1
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Patients patients)
+        public async Task<IActionResult> Edit(string id, Patients patients)
         {
-            if (id != patients.PatientID)
+            if (id != patients.ICNumber)
             {
                 return NotFound();
             }
@@ -158,7 +158,7 @@ namespace Toothcare_Appointment_System.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PatientsExists(patients.PatientID))
+                    if (!PatientsExists(patients.ICNumber))
                     {
                         return NotFound();
                     }
@@ -174,13 +174,13 @@ namespace Toothcare_Appointment_System.Controllers
 
         // GET: Patients/Delete/1
         [HttpGet("Delete/{id}")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.PatientID == id);
+            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.ICNumber == id);
             if (patients == null)
             {
                 return NotFound();
@@ -191,7 +191,7 @@ namespace Toothcare_Appointment_System.Controllers
         // POST: Patients/Delete/1
         [HttpPost("Delete/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var patients = await _context.Patients.FindAsync(id);
             _context.Patients.Remove(patients);
@@ -199,9 +199,9 @@ namespace Toothcare_Appointment_System.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PatientsExists(int id)
+        private bool PatientsExists(string id)
         {
-            return _context.Patients.Any(e => e.PatientID == id);
+            return _context.Patients.Any(e => e.ICNumber == id);
         }
     }
 }

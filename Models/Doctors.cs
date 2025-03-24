@@ -31,7 +31,5 @@ namespace Toothcare_Appointment_System.Models
 
         [Required]
         public string DoctorAvailability { get; set; }
-
-        public ICollection<Appointment> Appointments { get; set; }
     }
 }
