@@ -3,36 +3,32 @@
 <h2>Doctor</h2>
 
 <div>
-    <dl class="row">
-        <dt class="col-sm-2">
-            Doctor Name
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DoctorName
-        </dd>
-        <dt class="col-sm-2">
-            Phone Number
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DoctorPhoneNo
-        </dd>
-        <dt class="col-sm-2">
-            Email
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DoctorEmail
-        </dd>
-        <dt class="col-sm-2">
-            Role
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DoctorLicenseNumber
-        </dd>
-    </dl>
+	<dl class="row">
+		<dt class="col-sm-2">
+			Doctor Name
+		</dt>
+		<dd class="col-sm-10">
+			@Model.DoctorName
+		</dd>
+		<dt class="col-sm-2">
+			Phone Number
+		</dt>
+		<dd class="col-sm-10">
+			@Model.DoctorPhoneNo
+		</dd>
+		<dt class="col-sm-2">
+			Email
+		</dt>
+		<dd class="col-sm-10">
+			@Model.DoctorEmail
+		</dd>
+		<dt class="col-sm-2">
+			Role
+		</dt>
+		<dd class="col-sm-10">
+			@Model.DoctorLicenseNumber
+		</dd>
+	</dl>
 
-    <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="DoctorID" />
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
+	<a asp-action="Index" class="btn btn-secondary">Back</a>
 </div>

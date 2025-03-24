@@ -18,9 +18,6 @@ namespace Toothcare_Appointment_System.Models
         [AllowNull]
         public int? RoomNumber { get; set; }
 
-        [AllowNull]
-        public int? AppointmentDuration { get; set; }
-
         public string AppointmentType { get; set; } // consultation, check up, procedure
 
         public int DoctorID { get; set; }

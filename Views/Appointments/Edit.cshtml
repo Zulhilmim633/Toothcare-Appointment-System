@@ -1,6 +1,6 @@
 ﻿@model Toothcare_Appointment_System.Models.AppointmentDTO
 
-<h2>Create New Appointment</h2>
+<h2>Edit Appointment</h2>
 
 <form asp-action="Edit" method="post">
 	<input type="hidden" asp-for="AppointmentID" />
@@ -52,7 +52,22 @@
 		<span asp-validation-for="AppointmentType" class="text-danger"></span>
 	</div>
 
-	<button type="submit" class="btn btn-primary">Ediit</button>
+	@if (User.IsInRole("Doctor") | User.IsInRole("Admin"))
+	{
+		<div class="form-group">
+			<label asp-for="AppointmentNotes" class="control-label">Note</label>
+			<textarea asp-for="AppointmentNotes" class="form-control"></textarea>
+			<span asp-validation-for="AppointmentNotes" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="RoomNumber" class="control-label">Room Number</label>
+			<input asp-for="RoomNumber" class="form-control" type="number"/>
+			<span asp-validation-for="RoomNumber" class="text-danger"></span>
+		</div>
+	}
+
+	<button type="submit" class="btn btn-primary">Edit</button>
 	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 

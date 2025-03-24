@@ -1,11 +1,23 @@
-﻿@{
-	var Staff = Model is IEnumerable<Staff>;
-	var appointmentdto = Model is IEnumerable<AppointmentDTO>;
-}
-
-@if (Staff)
+﻿@if (Model is IEnumerable<Toothcare_Appointment_System.Models.Staff> && User.IsInRole("Admin")) // Admin access the page
 {
-	<h2>Staff List</h2>
+	IEnumerable<Toothcare_Appointment_System.Models.Staff> Staff = (IEnumerable<Toothcare_Appointment_System.Models.Staff>)Model;
+	<ul class="nav nav-tabs nav-fill">
+		<li class="nav-item">
+			<a class="nav-link active" aria-current="page">Staff</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-action="index" asp-controller="Doctors">Doctor</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-action="index" asp-controller="Appointments">Appointment</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-action="index" asp-controller="Patients">Patient</a>
+		</li>
+	</ul>
+
+
+	<h2>Staff List <a asp-action="Create">Add new staff</a></h2>
 	<table class="table">
 		<thead>
 			<tr>
@@ -18,7 +30,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var staff in Model)
+			@foreach (var staff in Staff)
 			{
 				<tr>
 					<td>STF@(@staff.StaffID)</td>
@@ -36,8 +48,19 @@
 		</tbody>
 	</table>
 }
-else if (appointmentdto)
+else if (Model is IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO>) // staff access the page
 {
+	IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO> appointmentdto = (IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO>)Model;
+
+	<ul class="nav nav-tabs">
+		<li class="nav-item">
+			<a class="nav-link active" aria-current="page">Appointment</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-action="index" asp-controller="Patients">Patient</a>
+		</li>
+	</ul>
+
 	<h2>Appointment List <a asp-action="Create" asp-controller="Appointments">Create</a></h2>
 	<table class="table">
 		<thead>
@@ -52,7 +75,7 @@ else if (appointmentdto)
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var appoinment in Model)
+			@foreach (var appoinment in appointmentdto)
 			{
 				<tr>
 					<td>@appoinment.AppointmentDateTime.ToShortDateString()</td>

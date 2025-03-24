@@ -1,34 +1,90 @@
-﻿@model IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO>
-
-<h2>Upcoming Appointmnents</h2>
-<table class="table">
-	<thead>
-		<tr>
-			<th>Appointment Date</th>
-			<th>Reason Appoinment</th>
-			<th>Status</th>
-			<th>Notes</th>
-			<th>Room Number</th>
-			<th>Appointment Type</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var appointment in Model)
-		{
+﻿@if (Model is IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO>)
+{
+	IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO> appointments = (IEnumerable<Toothcare_Appointment_System.Models.AppointmentDTO>)Model;
+	<h2>My Upcoming Appointmnents</h2>
+	<table class="table">
+		<thead>
 			<tr>
-				<td>@appointment.AppointmentDateTime</td>
-				<td>@appointment.AppointmentReason</td>
-				<td>@appointment.AppointmentStatus</td>
-				<td>@appointment.AppointmentNotes</td>
-				<td>@appointment.RoomNumber</td>
-				<td>@appointment.AppointmentType</td>
-				<td>
-					<a asp-action="View" asp-route-id="@appointment.AppointmentID">View</a> |
-					<a asp-action="Edit" asp-route-id="@appointment.AppointmentID">Edit</a> |
-					<a asp-action="Delete" asp-route-id="@appointment.AppointmentID">Delete</a>
-				</td>
+				<th>Appointment Date</th>
+				<th>Reason Appoinment</th>
+				<th>Status</th>
+				<th>Notes</th>
+				<th>Room Number</th>
+				<th>Appointment Type</th>
+				<th>Actions</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (var appointment in appointments)
+			{
+				<tr>
+					<td>@appointment.AppointmentDateTime</td>
+					<td>@appointment.AppointmentReason</td>
+					<td>@appointment.AppointmentStatus</td>
+					<td>@appointment.AppointmentNotes</td>
+					<td>@appointment.RoomNumber</td>
+					<td>@appointment.AppointmentType</td>
+					<td>
+						<a asp-action="View" asp-route-id="@appointment.AppointmentID" asp-controller="Appointments">View</a> |
+						<a asp-action="Edit" asp-route-id="@appointment.AppointmentID" asp-controller="Appointments">Edit</a> |
+						<a asp-action="Delete" asp-route-id="@appointment.AppointmentID" asp-controller="Appointments">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else if (Model is IEnumerable<Toothcare_Appointment_System.Models.Doctors> && User.IsInRole("Admin"))
+{
+	IEnumerable<Toothcare_Appointment_System.Models.Doctors> doctors = (IEnumerable<Toothcare_Appointment_System.Models.Doctors>)Model;
+
+	<ul class="nav nav-tabs nav-fill">
+		<li class="nav-item">
+			<a class="nav-link" aria-current="page" asp-action="index" asp-controller="Staff">Staff</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link active" aria-current="page">Doctor</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-action="index" asp-controller="Appointments">Appointment</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" asp-action="index" asp-controller="Patients">Patient</a>
+		</li>
+	</ul>
+
+	<h2>Doctor List <a asp-action="Create">Add new Doctor</a></h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Doctor ID</th>
+				<th>Doctor Name</th>
+				<th>Phone Number</th>
+				<th>Email</th>
+				<th>Address</th>
+				<th>License Number</th>
+				<th>Availability</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var doctor in doctors)
+			{
+				<tr>
+					<td>DOC@(doctor.DoctorID)</td>
+					<td>@doctor.DoctorName</td>
+					<td>@doctor.DoctorPhoneNo</td>
+					<td>@doctor.DoctorEmail</td>
+					<td>@doctor.DoctorAddress</td>
+					<td>@doctor.DoctorLicenseNumber</td>
+					<td>@doctor.DoctorAvailability</td>
+					<td>
+						<a asp-action="View" asp-route-id="@doctor.DoctorID">View</a> |
+						<a asp-action="Edit" asp-route-id="@doctor.DoctorID">Edit</a> |
+						<a asp-action="Delete" asp-route-id="@doctor.DoctorID">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

@@ -4,6 +4,11 @@
 
 <form asp-action="Create" method="post">
     <div class="form-group">
+        <label asp-for="ICNumber" class="control-label">IC Number</label>
+        <input asp-for="ICNumber" class="form-control" />
+        <span asp-validation-for="ICNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="PatientName" class="control-label">Name</label>
         <input asp-for="PatientName" class="form-control" />
         <span asp-validation-for="PatientName" class="text-danger"></span>
@@ -19,17 +24,17 @@
         <span asp-validation-for="PatientEmail" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PatientDOB" class="control-label">Password Comformation</label>
+        <label asp-for="PatientDOB" class="control-label">Date of birth</label>
         <input asp-for="PatientDOB" class="form-control" type="date" />
         <span asp-validation-for="PatientDOB" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PatientAddress" class="control-label">Password Comformation</label>
+        <label asp-for="PatientAddress" class="control-label">Address</label>
         <textarea asp-for="PatientAddress" class="form-control"></textarea>
         <span asp-validation-for="PatientAddress" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PatientGender" class="control-label">Password Comformation</label>
+        <label asp-for="PatientGender" class="control-label">Gender</label>
         <select asp-for="PatientGender" class="form-control">
             <option value="Male">Male</option>
             <option value="Female">Female</option>
