@@ -342,6 +342,26 @@ namespace Toothcare_Appointment_System.Controllers
                 return RedirectToAction("Index", "Staff");
             }
         }
+
+        //GET: Appointments/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var appointment = await _context.Appointment
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
+                .FirstOrDefaultAsync(a => a.AppointmentID == id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            return View(appointment);
+        }
+
         private bool AppointmentExists(int id)
         {
             return _context.Appointment.Any(e => e.AppointmentID == id);

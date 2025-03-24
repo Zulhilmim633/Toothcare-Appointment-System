@@ -199,6 +199,22 @@ namespace Toothcare_Appointment_System.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //GET: Patients/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.ICNumber == id);
+            if (patients == null)
+            {
+                return NotFound();
+            }
+            return View(patients);
+        }
+
         private bool PatientsExists(string id)
         {
             return _context.Patients.Any(e => e.ICNumber == id);

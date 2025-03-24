@@ -178,7 +178,6 @@ namespace Toothcare_Appointment_System.Controllers
             return View(staff); // Returns the edit view of a staff
         }
 
-        // POST: Staff/Edit/1
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Staff staff)
@@ -187,28 +186,49 @@ namespace Toothcare_Appointment_System.Controllers
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(staff);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StaffExists(staff.StaffID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(staff);
             }
-            return View(staff); // Returns the edit view of a student
+
+            var existingStaff = await _context.Staff.FindAsync(id);
+            if (existingStaff == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                // Keep existing password if no new password is provided
+                if (!string.IsNullOrEmpty(staff.StaffPass))
+                {
+                    existingStaff.StaffPass = HashPassword(staff.StaffPass); // Hash only if changed
+                }
+
+                // Update only necessary fields
+                existingStaff.StaffName = staff.StaffName;
+                existingStaff.StaffPhoneNo = staff.StaffPhoneNo;
+                existingStaff.StaffRole = staff.StaffRole;
+                existingStaff.StaffEmail = staff.StaffEmail;
+
+                _context.Update(existingStaff);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StaffExists(staff.StaffID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Staff/Delete/1
         [HttpGet("Delete/{id}")]
@@ -235,6 +255,22 @@ namespace Toothcare_Appointment_System.Controllers
             _context.Staff.Remove(staff);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: staff/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var staff = await _context.Staff.FindAsync(id);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            return View(staff); // Returns the view view of a staff
         }
 
         private bool StaffExists(int id)

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Toothcare_Appointment_System.Models.Patients>
+
+<h2>Patients</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Phone Number</th>
+			<th>Email</th>
+			<th>DOB</th>
+			<th>Address</th>
+			<th>Gender</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var patients in Model)
+		{
+			<tr>
+				<td>@patients.PatientName</td>
+				<td>@patients.PatientPhoneNo</td>
+				<td>@patients.PatientEmail</td>
+				<td>@patients.PatientDOB.ToShortDateString()</td>
+				<td>@patients.PatientAddress</td>
+				<td>@patients.PatientGender</td>
+				<td>
+					<a asp-action="View" asp-route-id="@patients.ICNumber">View</a> |
+					<a asp-action="Edit" asp-route-id="@patients.ICNumber">Edit</a> |
+					<a asp-action="Delete" asp-route-id="@patients.ICNumber">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

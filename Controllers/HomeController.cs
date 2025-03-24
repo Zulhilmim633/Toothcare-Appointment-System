@@ -4,7 +4,7 @@ using Toothcare_Appointment_System.Models;
 
 namespace Toothcare_Appointment_System.Controllers;
 
-[Route("Home")]
+[Route("/")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
