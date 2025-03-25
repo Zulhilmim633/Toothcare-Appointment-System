@@ -102,7 +102,7 @@ namespace Toothcare_Appointment_System.Controllers
         {
             object model;
 
-            if (User.IsInRole("Admin"))
+            if (HttpContext.Session.GetString("UserRole") == "Admin")
             {
                 model = await _context.Staff.ToListAsync();
             }
@@ -180,7 +180,7 @@ namespace Toothcare_Appointment_System.Controllers
 
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, StaffDTO staff)
+        public async Task<IActionResult> Edit(int id, Staff staff)
         {
             if (id != staff.StaffID)
             {

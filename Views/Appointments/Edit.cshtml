@@ -1,6 +1,10 @@
 ﻿@model Toothcare_Appointment_System.Models.AppointmentDTO
 
+<<<<<<< HEAD
 <h2 class="text-primary text-center"><i class="fas fa-calendar-alt"></i> Edit Appointment</h2>
+=======
+<h2>Create New Appointment</h2>
+>>>>>>> parent of 0395801 (Update)
 
 <div class="edit-container p-4">
     <form asp-action="Edit" method="post">
@@ -29,6 +33,7 @@
             <span asp-validation-for="AppointmentStatus" class="text-danger"></span>
         </div>
 
+<<<<<<< HEAD
         <div class="mb-3 input-group">
             <span class="input-group-text"><i class="fas fa-user-md"></i></span>
             <select asp-for="DoctorID" class="form-select">
@@ -130,6 +135,11 @@
 
 <!-- Include FontAwesome for Icons -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+=======
+	<button type="submit" class="btn btn-primary">Ediit</button>
+	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+>>>>>>> parent of 0395801 (Update)
 
 <script>
     function updatePatient(){

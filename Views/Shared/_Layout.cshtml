@@ -33,6 +33,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
+<<<<<<< HEAD
 							<a class="nav-link text-dark fw-semibold" asp-area="" asp-controller="Home" asp-action="Privacy">
 								<i class="bi bi-shield-lock"></i> Privacy
 							</a>
@@ -40,6 +41,10 @@
 					</ul>
 
 					<div>
+=======
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+						</li>
+>>>>>>> parent of 0395801 (Update)
 						@if (User.Identity.IsAuthenticated)
 						{
 							<form method="post" action="/logout" class="d-inline">

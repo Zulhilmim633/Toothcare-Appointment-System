@@ -87,9 +87,9 @@ namespace Toothcare_Appointment_System.Controllers
             return View(await _context.Patients.ToListAsync());
         }
 
-        //GET: Patients/View/1
-        [HttpGet("View/{id}")]
-        public async Task<IActionResult> View(string? id)
+        // GET: Patients/Details/1
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -197,6 +197,22 @@ namespace Toothcare_Appointment_System.Controllers
             _context.Patients.Remove(patients);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        //GET: Patients/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.ICNumber == id);
+            if (patients == null)
+            {
+                return NotFound();
+            }
+            return View(patients);
         }
 
         private bool PatientsExists(string id)
