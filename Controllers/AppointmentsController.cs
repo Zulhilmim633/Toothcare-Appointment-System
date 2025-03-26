@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Toothcare_Appointment_System.Data;
@@ -67,7 +68,6 @@ namespace Toothcare_Appointment_System.Controllers
                 AppointmentStatus = appointmentDto.AppointmentStatus,
                 AppointmentNotes = appointmentDto.AppointmentNotes,
                 RoomNumber = appointmentDto.RoomNumber,
-                AppointmentDuration = appointmentDto.AppointmentDuration,
                 AppointmentType = appointmentDto.AppointmentType,
                 Doctor = doctor,
                 Patient = patient
@@ -81,14 +81,53 @@ namespace Toothcare_Appointment_System.Controllers
 
         // PUT: api/Appoinments/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppoinment(int id, Appointment appoinment)
+        public async Task<IActionResult> PutAppoinment(int id, AppointmentDTO appointmentdto)
         {
-            if (id != appoinment.AppointmentID)
+            if (id != appointmentdto.AppointmentID)
             {
                 return BadRequest();
             }
-            _context.Entry(appoinment).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+
+            var appointment = await _context.Appointment.FindAsync(id);
+            if (appointment == null)
+            {
+                return NotFound("Appointment not found.");
+            }
+
+            // ✅ Ensure Doctor and Patient exist
+            var doctor = await _context.Doctors.FindAsync(appointmentdto.DoctorID);
+            var patient = await _context.Patients.FindAsync(appointmentdto.ICNumber);
+            if (doctor == null || patient == null)
+            {
+                return NotFound("Doctor or Patient not found.");
+            }
+
+            try
+            {
+                appointment.AppointmentDateTime = appointmentdto.AppointmentDateTime;
+                appointment.AppointmentReason = appointmentdto.AppointmentReason;
+                appointment.AppointmentStatus = appointmentdto.AppointmentStatus;
+                appointment.AppointmentType = appointmentdto.AppointmentType;
+                appointment.AppointmentNotes = appointmentdto.AppointmentNotes;
+                appointment.RoomNumber = appointmentdto.RoomNumber;
+
+                appointment.DoctorID = appointmentdto.DoctorID;
+                appointment.ICNumber = appointmentdto.ICNumber;
+
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Appointment.Any(a => a.AppointmentID == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return NoContent();
         }
 
@@ -107,6 +146,7 @@ namespace Toothcare_Appointment_System.Controllers
         }
     }
 
+    [Authorize]
     [Route("Appointments")]
     public class AppointmentsController : Controller
     {
@@ -120,8 +160,17 @@ namespace Toothcare_Appointment_System.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (role == "Doctor")
+            if (User.IsInRole("Admin"))
+            {
+
+                var appointment = await _context.Appointment
+                    .Include(a => a.Doctor)
+                    .Include(a => a.Patient)
+                    .ToListAsync();
+
+                return View(appointment);
+            }
+            else if (User.IsInRole("Doctor"))
             {
                 return RedirectToAction("Index", "Doctors");
             }
@@ -131,16 +180,18 @@ namespace Toothcare_Appointment_System.Controllers
             }
         }
 
-        // GET: Appointments/Details/1
-        [HttpGet("Details/{id}")]
-        public async Task<IActionResult> Details(int? id)
+        //GET: Appointments/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
             var appointment = await _context.Appointment
-                .FirstOrDefaultAsync(m => m.AppointmentID == id);
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
+                .FirstOrDefaultAsync(a => a.AppointmentID == id);
             if (appointment == null)
             {
                 return NotFound();
@@ -192,10 +243,9 @@ namespace Toothcare_Appointment_System.Controllers
                 _context.Appointment.Add(appointment);
                 await _context.SaveChangesAsync();
 
-                var role = User.FindFirst(ClaimTypes.Role)?.Value;
-                if (role == "Doctor")
+                if (User.IsInRole("Admin"))
                 {
-                    return RedirectToAction("Index", "Doctors");
+                    return RedirectToAction("Index", "Appointments");
                 }
                 else
                 {
@@ -203,7 +253,9 @@ namespace Toothcare_Appointment_System.Controllers
                 }
             }
 
-            return View();
+            ViewData["Doctors"] = await _context.Doctors.ToListAsync();
+            ViewData["Patients"] = await _context.Patients.ToListAsync();
+            return View(appointmentDto);
         }
 
         // GET: Appointments/Edit/1
@@ -230,6 +282,8 @@ namespace Toothcare_Appointment_System.Controllers
                 AppointmentReason = appointment.AppointmentReason,
                 AppointmentStatus = appointment.AppointmentStatus,
                 AppointmentType = appointment.AppointmentType,
+                AppointmentNotes = appointment.AppointmentNotes,
+                RoomNumber = appointment.RoomNumber,
                 DoctorID = appointment.Doctor.DoctorID,
                 ICNumber = appointment.Patient.ICNumber
             };
@@ -274,6 +328,8 @@ namespace Toothcare_Appointment_System.Controllers
                 appointment.AppointmentReason = appointmentdto.AppointmentReason;
                 appointment.AppointmentStatus = appointmentdto.AppointmentStatus;
                 appointment.AppointmentType = appointmentdto.AppointmentType;
+                appointment.AppointmentNotes = appointmentdto.AppointmentNotes;
+                appointment.RoomNumber = appointmentdto.RoomNumber;
 
                 appointment.DoctorID = appointmentdto.DoctorID;
                 appointment.ICNumber = appointmentdto.ICNumber;
@@ -285,7 +341,7 @@ namespace Toothcare_Appointment_System.Controllers
             {
                 if (!_context.Appointment.Any(a => a.AppointmentID == id))
                 {
-                    return NotFound("Pelik");
+                    return NotFound();
                 }
                 else
                 {
@@ -294,10 +350,13 @@ namespace Toothcare_Appointment_System.Controllers
             }
 
             // Redirect based on user role
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (role == "Doctor")
+            if (User.IsInRole("Doctor"))
             {
                 return RedirectToAction("Index", "Doctors");
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index");
             }
             else
             {
@@ -315,6 +374,8 @@ namespace Toothcare_Appointment_System.Controllers
                 return NotFound();
             }
             var appointment = await _context.Appointment
+                .Include(a => a.Doctor)  // Ensure Doctor data is loaded
+                .Include(a => a.Patient) // Ensure Patient data is loaded
                 .FirstOrDefaultAsync(m => m.AppointmentID == id);
             if (appointment == null)
             {
@@ -341,25 +402,6 @@ namespace Toothcare_Appointment_System.Controllers
             {
                 return RedirectToAction("Index", "Staff");
             }
-        }
-
-        //GET: Appointments/View/1
-        [HttpGet("View/{id}")]
-        public async Task<IActionResult> View(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var appointment = await _context.Appointment
-                .Include(a => a.Doctor)
-                .Include(a => a.Patient)
-                .FirstOrDefaultAsync(a => a.AppointmentID == id);
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-            return View(appointment);
         }
 
         private bool AppointmentExists(int id)

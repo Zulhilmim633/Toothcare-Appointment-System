@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Toothcare_Appointment_System.Data;
 using Toothcare_Appointment_System.Models;
@@ -71,6 +72,7 @@ namespace Toothcare_Appointment_System.Controllers
         }
     }
 
+    [Authorize]
     [Route("Patients")]
     public class PatientsController : Controller
     {
@@ -87,9 +89,9 @@ namespace Toothcare_Appointment_System.Controllers
             return View(await _context.Patients.ToListAsync());
         }
 
-        // GET: Patients/Details/1
-        [HttpGet("Details/{id}")]
-        public async Task<IActionResult> Details(string? id)
+        //GET: Patients/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(string? id)
         {
             if (id == null)
             {
@@ -197,22 +199,6 @@ namespace Toothcare_Appointment_System.Controllers
             _context.Patients.Remove(patients);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        //GET: Patients/View/1
-        [HttpGet("View/{id}")]
-        public async Task<IActionResult> View(string? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var patients = await _context.Patients.FirstOrDefaultAsync(m => m.ICNumber == id);
-            if (patients == null)
-            {
-                return NotFound();
-            }
-            return View(patients);
         }
 
         private bool PatientsExists(string id)

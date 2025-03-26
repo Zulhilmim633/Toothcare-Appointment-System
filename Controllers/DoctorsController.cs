@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -106,33 +108,34 @@ namespace Toothcare_Appointment_System.Controllers
                 return Unauthorized(); // ✅ Block unauthorized access
             }
 
-            return View(await _context.Appointment
-                .Include(a => a.Doctor)
-                .Include(a => a.Patient)
-                .Where(a => a.Doctor.DoctorID == doctorId)
-                .Select(item => new AppointmentDTO
-                {
-                    AppointmentID = item.AppointmentID,
-                    AppointmentDateTime = item.AppointmentDateTime,
-                    AppointmentReason = item.AppointmentReason,
-                    AppointmentStatus = item.AppointmentStatus,
-                    AppointmentNotes = item.AppointmentNotes,
-                    RoomNumber = item.RoomNumber,
-                    AppointmentType = item.AppointmentType
-                }).ToListAsync()
-            );
+            object model;
+
+            if (User.IsInRole("Admin"))
+            {
+                model = await _context.Doctors.ToListAsync();
+            }
+            else
+            {
+                model = await _context.Appointment
+                    .Include(a => a.Doctor)
+                    .Include(a => a.Patient)
+                    .Where(a => a.Doctor.DoctorID == doctorId)
+                    .OrderByDescending(item => item.AppointmentDateTime)
+                    .ToListAsync();
+            }
+
+            return View(model);
         }
 
-        // GET: Doctors/Details/1
-        [HttpGet("Details/{id}")]
-        public async Task<IActionResult> Details(int? id)
+        // GET: Doctors/View/1
+        [HttpGet("View/{id}")]
+        public async Task<IActionResult> View(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var doctors = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.DoctorID == id);
+            var doctors = await _context.Doctors.FindAsync(id);
             if (doctors == null)
             {
                 return NotFound();
@@ -148,12 +151,13 @@ namespace Toothcare_Appointment_System.Controllers
         }
 
         // POST: Doctors/Create
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Doctors doctors)
         {
             if (ModelState.IsValid)
             {
+                doctors.DoctorPass = HashPassword(doctors.DoctorPass);
                 _context.Add(doctors);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -178,36 +182,60 @@ namespace Toothcare_Appointment_System.Controllers
         }
 
         // POST: Doctors/Edit/1
-        [HttpPost]
+        [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Doctors doctors)
+        public async Task<IActionResult> Edit(int id, DoctorsDTO doctor)
         {
-            if (id != doctors.DoctorID)
+            if (id != doctor.DoctorID)
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(doctors);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DoctorsExists(doctors.DoctorID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(doctor);
             }
-            return View(doctors);
+
+            var existingDoctor = await _context.Doctors.FindAsync(id);
+            if (existingDoctor == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                // ✅ Keep existing password if no new password is provided
+                if (!string.IsNullOrEmpty(doctor.DoctorPass))
+                {
+                    existingDoctor.DoctorPass = HashPassword(doctor.DoctorPass); // ✅ Hash only if changed
+                }
+
+                // ✅ Update only necessary fields
+                existingDoctor.DoctorName = doctor.DoctorName;
+                existingDoctor.DoctorPhoneNo = doctor.DoctorPhoneNo;
+                existingDoctor.DoctorEmail = doctor.DoctorEmail;
+                existingDoctor.DoctorAddress = doctor.DoctorAddress;
+                existingDoctor.DoctorLicenseNumber = doctor.DoctorLicenseNumber;
+                existingDoctor.DoctorAvailability = doctor.DoctorAvailability;
+
+                _context.Update(existingDoctor);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Doctors.Any(d => d.DoctorID == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index");
         }
+
+
         // GET: Doctors/Delete/1
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
@@ -239,6 +267,18 @@ namespace Toothcare_Appointment_System.Controllers
         private bool DoctorsExists(int id)
         {
             return _context.Doctors.Any(e => e.DoctorID == id);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte b in bytes)
+                    builder.Append(b.ToString("x2"));
+                return builder.ToString();
+            }
         }
     }
 }

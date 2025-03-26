@@ -2,56 +2,58 @@
     ViewData["Title"] = "Privacy Policy";
 }
 
-<h2 class="text-primary text-center"><i class="fas fa-user-shield"></i> Privacy Policy</h2>
+<!-- Privacy Policy Content -->
+<section class="container py-5">
+    <h1 class="text-center">Privacy Policy</h1>
+    <p class="text-center text-muted">Last updated: March 2025</p>
 
-<div class="privacy-container p-4">
-    <p class="text-center">We value your privacy and are committed to protecting your personal data.</p>
+    <div class="mt-4">
+        <h4>1. Introduction</h4>
+        <p>Welcome to the <strong>Appoinment Management System</strong>. Your privacy and security are our top priorities. This policy explains how we collect, use, and protect your data.</p>
 
-    <div class="mb-4">
-        <h4><i class="fas fa-user-secret"></i> Personal Information</h4>
-        <p>We collect necessary personal details to provide quality dental care and appointment scheduling.</p>
+        <h4>2. Information We Collect</h4>
+        <ul>
+            <li><strong>Personal Information:</strong> Name, contact details</li>
+            <li><strong>Medical & Appointment Data:</strong> Patient records and appointment details (Doctors & Staff only).</li>
+            <li><strong>System Usage Data:</strong> Logins, access history, and activities for security monitoring.</li>
+        </ul>
+
+        <h4>3. How We Use Your Data</h4>
+        <p>We use your data for:</p>
+        <ul>
+            <li>Managing staff, appointments, and patient records efficiently.</li>
+            <li>Ensuring security and compliance with healthcare policies.</li>
+            <li>Providing a seamless user experience.</li>
+        </ul>
+
+        <h4 class="text-danger">4. Patient Data Confidentiality</h4>
+        <p><strong>All staff members must strictly follow patient confidentiality rules:</strong></p>
+        <ul class="text-danger">
+            <li>Patient data should only be accessed for official purposes.</li>
+            <li><strong>No sharing of patient information</strong> with unauthorized individuals.</li>
+            <li>Failure to comply may result in disciplinary action.</li>
+        </ul>
+
+        <h4>5. Data Security Measures</h4>
+        <p>We implement industry-standard security measures to protect user and patient data, including:</p>
+        <ul>
+            <li>Secure database encryption for sensitive data.</li>
+            <li>Multi-level access control to restrict unauthorized access.</li>
+            <li>Regular security audits and updates.</li>
+        </ul>
+
+        <h4>6. Your Rights & Responsibilities</h4>
+        <p>As a user, you have the right to:</p>
+        <ul>
+            <li>Request access to your personal data.</li>
+            <li>Update or correct your account information.</li>
+            <li>Report any security concerns to the admin team.</li>
+        </ul>
+
+        <h4>7. Changes to This Policy</h4>
+        <p>We may update this Privacy Policy as needed. Any significant changes will be communicated to all users.</p>
+
+        <h4>8. Contact Us</h4>
+        <p>If you have any questions regarding this Privacy Policy, please contact our **Support Team**.</p>
     </div>
-
-    <div class="mb-4">
-        <h4><i class="fas fa-lock"></i> Data Security</h4>
-        <p>Your information is securely stored and protected against unauthorized access.</p>
-    </div>
-
-    <div class="mb-4">
-        <h4><i class="fas fa-share-alt"></i> Data Sharing</h4>
-        <p>We do not share your information with third parties except as required by law or for medical referrals.</p>
-    </div>
-
-    <div class="mb-4">
-        <h4><i class="fas fa-calendar-check"></i> Appointment Information</h4>
-        <p>Details regarding your appointments are confidential and used solely for scheduling purposes.</p>
-    </div>
-
-    <div class="text-center">
-        <a asp-action="Index" class="btn btn-outline-primary rounded-pill px-4">
-            <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
-    </div>
-</div>
-
-<style>
-    .privacy-container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 4px 4px 12px rgba(0, 100, 255, 0.15);
-        max-width: 600px;
-        margin: auto;
-    }
-
-    h4 {
-        color: #007bff;
-    }
-
-    body {
-        background: url('/images/dental3-bg.jpg') no-repeat center center fixed;
-        background-size: cover;
-    }
-</style>
-
-<!-- Include FontAwesome for Icons -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+</section>

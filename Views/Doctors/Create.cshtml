@@ -1,146 +1,104 @@
 ﻿@model Toothcare_Appointment_System.Models.Doctors
 
-<<<<<<< HEAD
-<h2 class="text-primary text-center"><i class="fas fa-user-md"></i> Register New Doctor</h2>
-
-<div class="register-container p-4">
-    <form asp-controller="Doctors" asp-action="Create" method="post">
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input asp-for="DoctorName" class="form-control" placeholder="Enter Name" maxlength="250" />
-            <span asp-validation-for="DoctorName" class="text-danger"></span>
-        </div>
-=======
-<h2>Add New Doctor</h2>
-
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="DoctorName" class="control-label">Name</label>
-        <input asp-for="DoctorName" class="form-control" maxlength="250"/>
-        <span asp-validation-for="DoctorName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DoctorPhoneNo" class="control-label">Phone Number</label>
-        <input asp-for="DoctorPhoneNo" class="form-control" type="tel" />
-        <span asp-validation-for="DoctorPhoneNo" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DoctorEmail" class="control-label">Email</label>
-        <input asp-for="DoctorEmail" class="form-control" type="email" />
-        <span asp-validation-for="DoctorEmail" class="text-danger"></span>
-    </div>
-    
-    <div class="form-group">
-        <label asp-for="DoctorLicenseNumber" class="control-label">Email</label>
-        <input asp-for="DoctorLicenseNumber" class="form-control" type="email" />
-        <span asp-validation-for="DoctorLicenseNumber" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="DoctorAvailability" class="control-label">Email</label>
-        <input asp-for="DoctorAvailability" class="form-control" type="email" />
-        <span asp-validation-for="DoctorAvailability" class="text-danger"></span>
-    </div>
->>>>>>> parent of 0395801 (Update)
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-phone"></i></span>
-            <input asp-for="DoctorPhoneNo" class="form-control" type="tel" placeholder="Enter Phone Number" />
-            <span asp-validation-for="DoctorPhoneNo" class="text-danger"></span>
-        </div>
-
-<<<<<<< HEAD
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-            <input asp-for="DoctorEmail" class="form-control" type="email" placeholder="Enter Email" />
-            <span asp-validation-for="DoctorEmail" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-            <input asp-for="DoctorLicenseNumber" class="form-control" placeholder="Enter License Number" />
-            <span asp-validation-for="DoctorLicenseNumber" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
-            <input asp-for="DoctorAvailability" class="form-control" placeholder="Enter Availability" />
-            <span asp-validation-for="DoctorAvailability" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-            <textarea asp-for="DoctorAddress" class="form-control" placeholder="Enter Address"></textarea>
-            <span asp-validation-for="DoctorAddress" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-            <input asp-for="DoctorPass" class="form-control" type="password" placeholder="Enter Password" />
-            <span asp-validation-for="DoctorPass" class="text-danger"></span>
-        </div>
-
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-success rounded-pill px-4">
-                <i class="fas fa-user-plus"></i> Create
-            </button>
-            <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-danger rounded-pill px-4">
-                <i class="fas fa-times"></i> Cancel
-            </a>
-        </div>
-    </form>
-</div>
-
 <style>
-    .register-container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 4px 4px 12px rgba(0, 100, 255, 0.15);
-        max-width: 500px;
-        margin: auto;
-    }
+	main > div {
+		background: url(/img/room-2.jpg) no-repeat center center fixed;
+		background-size: cover;
+		height: 91.9dvh;
+		margin-bottom: -1rem;
+	}
 
-    .input-group-text {
-        background: #007bff;
-        color: white;
-        border-radius: 20px 0 0 20px;
-        border: none;
-    }
+	.register .btn:hover {
+		color: #fbfbfc;
+		background-image: linear-gradient(#7191b3, #446e9b 50%, #3f658f);
+	}
 
-    .form-control {
-        border: 2px solid #007bff;
-        transition: 0.3s ease-in-out;
-    }
+	.login-mod {
+		background-color: #ffffffcf;
+	}
 
-        .form-control:focus {
-            box-shadow: 0 0 8px rgba(0, 100, 255, 0.5);
-            border-color: #0056b3;
-        }
-
-    .btn-success {
-        background: #28a745;
-        border: none;
-    }
-
-        .btn-success:hover {
-            background: #218838;
-        }
-
-    .btn-outline-danger:hover {
-        background: #dc3545;
-        color: white;
-    }
-
-    body {
-        background: url('/images/dental3-bg.jpg') no-repeat center center fixed;
-        background-size: cover;
-    }
+	footer {
+		display: none;
+	}
 </style>
 
-<!-- Include FontAwesome for Icons -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
-=======
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
->>>>>>> parent of 0395801 (Update)
+<div class="d-flex justify-content-center align-content-center">
+	<div class="my-5">
+		<div class="login-mod d-flex flex-column container border border-3 border-primary rounded-3 p-5 shadow">
+			<form asp-controller="Doctors" asp-action="Create" method="post" class="d-flex flex-column gap-2">
+				<h2>Register New Doctor</h2>
+
+				<div class="form-group">
+					<label asp-for="DoctorName" class="control-label">Name</label>
+					<input asp-for="DoctorName" class="form-control" maxlength="250" />
+					<span asp-validation-for="DoctorName" class="text-danger"></span>
+				</div>
+
+				<div class="d-flex">
+					<div class="form-group">
+						<label asp-for="DoctorPhoneNo" class="control-label">Phone Number</label>
+						<input asp-for="DoctorPhoneNo" class="form-control" type="tel" />
+						<span asp-validation-for="DoctorPhoneNo" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="DoctorEmail" class="control-label">Email</label>
+						<input asp-for="DoctorEmail" class="form-control" type="email" />
+						<span asp-validation-for="DoctorEmail" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="DoctorLicenseNumber" class="control-label">License Number</label>
+						<input asp-for="DoctorLicenseNumber" class="form-control" />
+						<span asp-validation-for="DoctorLicenseNumber" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="DoctorAvailability" class="control-label">Availabality</label>
+					<input asp-for="DoctorAvailability" class="form-control" />
+					<span asp-validation-for="DoctorAvailability" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="DoctorAddress" class="control-label">Address</label>
+					<textarea asp-for="DoctorAddress" class="form-control"></textarea>
+					<span asp-validation-for="DoctorAddress" class="text-danger"></span>
+				</div>
+
+				<div class="d-flex">
+					<div class="form-group w-50">
+						<label asp-for="DoctorPass" class="control-label">Password Comformation</label>
+						<input asp-for="DoctorPass" class="form-control" type="password" onkeyup="checkMatch()" />
+						<span asp-validation-for="DoctorPass" class="text-danger"></span>
+					</div>
+					<div class="form-group w-50">
+						<label for="DoctorPassConfirm" class="control-label">Password Comformation</label>
+						<input id="DoctorPassConfirm" class="form-control" type="password" onkeyup="checkMatch()" />
+					</div>
+				</div>
+
+				<span id="passconfirm" class="text-danger"></span>
+
+				<div class="d-flex gap-3 justify-content-center mt-2">
+					<a asp-controller="Doctors" asp-action="Index" class="btn btn-secondary w-50">Back</a>
+					<button type="submit" class="btn btn-primary w-50">Create</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	function checkMatch(){
+		var password = document.getElementById("DoctorPass");
+		var confirmPassword = document.getElementById("DoctorPassConfirm");
+		var message = document.getElementById("passconfirm");
+		var submit = document.querySelector("button[type='submit']");
+		if(password.value != confirmPassword.value){
+			message.innerText = "Password does not match";
+			submit.disabled = true;
+		}
+		else{
+			message.innerText = "";
+			submit.disabled = false;
+		}
+	}
+</script>

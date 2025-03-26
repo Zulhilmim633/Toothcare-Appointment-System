@@ -1,5 +1,9 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+}
+
+html,main{
+    background-color: #F0F0F0;
 }
 
 @media (min-width: 768px) {
@@ -19,4 +23,8 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.header-sign .btn:hover {
+    color: #000000 ;
 }

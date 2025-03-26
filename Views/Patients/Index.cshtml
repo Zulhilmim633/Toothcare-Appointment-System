@@ -1,140 +1,117 @@
 ﻿@model IEnumerable<Toothcare_Appointment_System.Models.Patients>
-<<<<<<< HEAD
 @if (User.IsInRole("Admin"))
 {
+	<style>
+		main {
+			background: url(/img/doctor.jpg) no-repeat center center fixed;
+			background-size: cover;
+			height: 91.9dvh;
+			margin-bottom: -1rem;
+		}
+
+		.nav-link:hover {
+			opacity: 0.6;
+		}
+
+		footer {
+			display: none;
+		}
+	</style>
+
 	<ul class="nav nav-tabs nav-fill">
 		<li class="nav-item">
-			<a class="nav-link" asp-action="index" asp-controller="Staff">Staff</a>
+			<a class="nav-link bg-white fw-bol" asp-action="index" asp-controller="Staff">Staff</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-action="index" asp-controller="Doctors">Doctor</a>
+			<a class="nav-link bg-white fw-bol" asp-action="index" asp-controller="Doctors">Doctor</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" asp-action="index" asp-controller="Appointments">Appointment</a>
+			<a class="nav-link bg-white fw-bol" asp-action="index" asp-controller="Appointments">Appointment</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link active" aria-current="page">Patient</a>
+			<a class="nav-link text-white fw-bold bg-white bg-opacity-50 active" aria-current="page">Patient</a>
 		</li>
 	</ul>
-    <div class="d-flex justify-content-between align-items-center">
-        <h2 class="text-primary mb-0">
-            <i class="bi bi-calendar-check"></i> Patients
-        </h2>
-        <a asp-action="Create" asp-controller="Patients" class="btn btn-primary w-15">
-            <i class="bi bi-plus"></i> Create
-        </a>
-    </div>
 }
 else
 {
-	<ul class="nav nav-tabs">
+	<style>
+		main {
+			background: url(/img/backdrop.jpg) no-repeat center center fixed;
+			background-size: cover;
+			height: 91.9dvh;
+			margin-bottom: -1rem;
+		}
+
+		.nav-link:hover {
+			opacity: 0.6;
+		}
+
+		footer {
+			display: none;
+		}
+	</style>
+
+	<ul class="nav nav-tabs nav-fill">
 		<li class="nav-item">
-			<a class="nav-link" asp-action="index" asp-controller="Staff">Appointment</a>
+			<a class="nav-link bg-white fw-bold" asp-action="index" asp-controller="Staff">Appointment</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link active" aria-current="page">Patient</a>
+			<a class="nav-link active text-white fw-bold bg-white bg-opacity-50" aria-current="page">Patient</a>
 		</li>
 	</ul>
-	<div class="d-flex justify-content-between align-items-center">
-            <h2 class="text-primary mb-0">
-                <i class="bi bi-calendar-check"></i> Patient List
-            </h2>
-            <a asp-action="Create" asp-controller="Patients" class="btn btn-primary w-15">
-                <i class="bi bi-plus"></i> Create
-            </a>
-        </div>
 }
-<div class="table-responsive mt-3">
-    <table class="table table-hover align-middle shadow-sm">
-        <thead class="table-primary">
-            <tr>
-                <th><i class="bi bi-person"></i> Name</th>
-                <th><i class="bi bi-telephone"></i> Phone</th>
-                <th><i class="bi bi-envelope"></i> Email</th>
-                <th><i class="bi bi-calendar-date"></i> DOB</th>
-                <th><i class="bi bi-geo-alt"></i> Address</th>
-                <th><i class="bi bi-gender-ambiguous"></i> Gender</th>
-                <th class="text-center"><i class="bi bi-gear"></i> Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var patient in Model)
-            {
-                <tr>
-                    <td>@patient.PatientName</td>
-                    <td>@patient.PatientPhoneNo</td>
-                    <td>@patient.PatientEmail</td>
-                    <td>@patient.PatientDOB.ToShortDateString()</td>
-                    <td>@patient.PatientAddress</td>
-                    <td>@patient.PatientGender</td>
-                    <td class="text-center">
-                        <a asp-action="View" asp-route-id="@patient.ICNumber" class="btn btn-info btn-sm me-1">
-                            <i class="bi bi-eye"></i> View
-                        </a>
-                        <a asp-action="Edit" asp-route-id="@patient.ICNumber" class="btn btn-warning btn-sm me-1">
-                            <i class="bi bi-pencil"></i> Edit
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@patient.ICNumber" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash"></i> Delete
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
 
-<style>
-    body {
-        background: url('/images/dental1-bg.jpg') no-repeat center center fixed;
-        background-size: cover;
-    }
-
-    
-
-
-    .nav-tabs .nav-link {
-        font-weight: bold;
-        color: #0056b3;
-    }
-
-        .nav-tabs .nav-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-</style>
-=======
-
-<h2>Patients</h2>
-<table class="table">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Phone Number</th>
-			<th>Email</th>
-			<th>DOB</th>
-			<th>Address</th>
-			<th>Gender</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var patients in Model)
-		{
+<div class="container mt-4">
+	<h3 class="d-flex align-items-center justify-content-between mt-3 text-white fw-bold">
+		Patient List <a asp-action="Create" class="btn border border-3 rounded-pill bg-white p-2 px-4 scal fs-6">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus me-1" viewBox="0 0 16 16">
+				<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+				<path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5" />
+			</svg>
+			Add new patient
+		</a>
+	</h3>
+	<table class="table table-striped">
+		<thead>
 			<tr>
-				<td>@patients.PatientName</td>
-				<td>@patients.PatientPhoneNo</td>
-				<td>@patients.PatientEmail</td>
-				<td>@patients.PatientDOB.ToShortDateString()</td>
-				<td>@patients.PatientAddress</td>
-				<td>@patients.PatientGender</td>
-				<td>
-					<a asp-action="View" asp-route-id="@patients.ICNumber">View</a> |
-					<a asp-action="Edit" asp-route-id="@patients.ICNumber">Edit</a> |
-					<a asp-action="Delete" asp-route-id="@patients.ICNumber">Delete</a>
-				</td>
+				<th style="background-color:#7d838e;color:white;">Name</th>
+				<th style="background-color:#7d838e;color:white;">Ic number</th>
+				<th style="background-color:#7d838e;color:white;">Phone Number</th>
+				<th style="background-color:#7d838e;color:white;">Email</th>
+				<th style="background-color:#7d838e;color:white;">DOB</th>
+				<th style="background-color:#7d838e;color:white;">Address</th>
+				<th style="background-color:#7d838e;color:white;">Gender</th>
+				<th style="background-color:#7d838e;color:white;">Actions</th>
 			</tr>
-		}
-	</tbody>
-</table>
->>>>>>> parent of 0395801 (Update)
+		</thead>
+		<tbody>
+			@foreach (var patients in Model)
+			{
+				<tr class="table-info">
+					<td>@patients.PatientName</td>
+					<td>@patients.ICNumber</td>
+					<td>@patients.PatientPhoneNo</td>
+					<td>@patients.PatientEmail</td>
+					<td>@patients.PatientDOB.ToShortDateString()</td>
+					<td>@patients.PatientAddress</td>
+					<td>@patients.PatientGender</td>
+					<td>
+						<a asp-action="Edit" asp-route-id="@patients.ICNumber" class="btn btn-warning">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+								<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+								<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+							</svg>
+						</a>
+						<a asp-action="Delete" asp-route-id="@patients.ICNumber" class="btn btn-danger">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+								<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+								<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+							</svg>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

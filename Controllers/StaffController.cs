@@ -41,7 +41,6 @@ namespace Toothcare_Appointment_System.Controllers
             return staff;
         }
 
-
         // POST: api/staff
         [HttpPost]
         public async Task<ActionResult<Staff>> PostStaff(Staff staff)
@@ -102,22 +101,17 @@ namespace Toothcare_Appointment_System.Controllers
         {
             object model;
 
-            if (HttpContext.Session.GetString("UserRole") == "Admin")
+            if (User.IsInRole("Admin"))
             {
                 model = await _context.Staff.ToListAsync();
             }
             else
             {
-                model = await _context.Appointment.Select(item => new AppointmentDTO
-                {
-                    AppointmentID = item.AppointmentID,
-                    AppointmentDateTime = item.AppointmentDateTime,
-                    AppointmentReason = item.AppointmentReason,
-                    AppointmentStatus = item.AppointmentStatus,
-                    AppointmentNotes = item.AppointmentNotes,
-                    RoomNumber = item.RoomNumber,
-                    AppointmentType = item.AppointmentType
-                }).ToListAsync();
+                model = await _context.Appointment
+                    .Include(a => a.Doctor)  // Ensure Doctor data is loaded
+                    .Include(a => a.Patient) // Ensure Patient data is loaded
+                    .OrderByDescending(item => item.AppointmentDateTime)
+                    .ToListAsync();
             }
             ViewData["ModelType"] = model.GetType(); // Store type info for Razor view
 
@@ -180,7 +174,7 @@ namespace Toothcare_Appointment_System.Controllers
 
         [HttpPost("Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Staff staff)
+        public async Task<IActionResult> Edit(int id, StaffDTO staff)
         {
             if (id != staff.StaffID)
             {

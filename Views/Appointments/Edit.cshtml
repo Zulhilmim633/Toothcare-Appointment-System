@@ -1,158 +1,132 @@
 ﻿@model Toothcare_Appointment_System.Models.AppointmentDTO
 
-<<<<<<< HEAD
-<h2 class="text-primary text-center"><i class="fas fa-calendar-alt"></i> Edit Appointment</h2>
-=======
-<h2>Create New Appointment</h2>
->>>>>>> parent of 0395801 (Update)
-
-<div class="edit-container p-4">
-    <form asp-action="Edit" method="post">
-        <input type="hidden" asp-for="AppointmentID" />
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-            <input asp-for="AppointmentDateTime" class="form-control" type="date" />
-            <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-comment-medical"></i></span>
-            <textarea asp-for="AppointmentReason" class="form-control" placeholder="Enter Reason"></textarea>
-            <span asp-validation-for="AppointmentReason" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-clipboard-check"></i></span>
-            <select asp-for="AppointmentStatus" class="form-select">
-                <option value="Scheduled">Scheduled</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Completed">Completed</option>
-            </select>
-            <span asp-validation-for="AppointmentStatus" class="text-danger"></span>
-        </div>
-
-<<<<<<< HEAD
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-user-md"></i></span>
-            <select asp-for="DoctorID" class="form-select">
-                @foreach (var doctor in (List<Toothcare_Appointment_System.Models.Doctors>)ViewData["Doctors"])
-                {
-                    <option value="@doctor.DoctorID">@doctor.DoctorName</option>
-                }
-            </select>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-user-injured"></i></span>
-            <input id="filterPatient" onkeyup="updatePatient()" class="form-control" placeholder="Search for patient" title="Type Patient Name" />
-            <select asp-for="ICNumber" class="form-select">
-                @foreach (var patient in (List<Toothcare_Appointment_System.Models.Patients>)ViewData["Patients"])
-                {
-                    <option value="@patient.ICNumber">@patient.PatientName</option>
-                }
-            </select>
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-list"></i></span>
-            <input asp-for="AppointmentType" class="form-control" placeholder="Enter Type" />
-            <span asp-validation-for="AppointmentType" class="text-danger"></span>
-        </div>
-
-        @if (User.IsInRole("Doctor") | User.IsInRole("Admin"))
-        {
-            <div class="mb-3 input-group">
-                <span class="input-group-text"><i class="fas fa-sticky-note"></i></span>
-                <textarea asp-for="AppointmentNotes" class="form-control" placeholder="Enter Notes"></textarea>
-                <span asp-validation-for="AppointmentNotes" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3 input-group">
-                <span class="input-group-text"><i class="fas fa-door-closed"></i></span>
-                <input asp-for="RoomNumber" class="form-control" type="number" placeholder="Enter Room Number" />
-                <span asp-validation-for="RoomNumber" class="text-danger"></span>
-            </div>
-        }
-
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-success rounded-pill px-4">
-                <i class="fas fa-save"></i> Save Changes
-            </button>
-            <a asp-action="Index" asp-controller="Staff" class="btn btn-outline-danger rounded-pill px-4">
-                <i class="fas fa-times"></i> Cancel
-            </a>
-        </div>
-    </form>
-</div>
-
 <style>
-    .edit-container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 4px 4px 12px rgba(0, 100, 255, 0.15);
-        max-width: 500px;
-        margin: auto;
-    }
+	main > div {
+		background: url(/img/room-2.jpg) no-repeat center center fixed;
+		background-size: cover;
+		height: 91.9dvh;
+		margin-bottom: -1rem;
+	}
 
-    .input-group-text {
-        background: #007bff;
-        color: white;
-        border-radius: 20px 0 0 20px;
-        border: none;
-    }
+	.register .btn:hover {
+		color: #fbfbfc;
+		background-image: linear-gradient(#7191b3, #446e9b 50%, #3f658f);
+	}
 
-    .form-control, .form-select {
-        border: 2px solid #007bff;
-        transition: 0.3s ease-in-out;
-    }
+	.login-mod {
+		background-color: #ffffffcf;
+	}
 
-        .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 8px rgba(0, 100, 255, 0.5);
-            border-color: #0056b3;
-        }
-
-    .btn-success {
-        background: #28a745;
-        border: none;
-    }
-
-        .btn-success:hover {
-            background: #218838;
-        }
-
-    .btn-outline-danger:hover {
-        background: #dc3545;
-        color: white;
-    }
-
-    body {
-        background: url('/images/dental1-bg.jpg') no-repeat center center fixed;
-        background-size: cover;
-    }
+	footer {
+		display: none;
+	}
 </style>
 
-<!-- Include FontAwesome for Icons -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
-=======
-	<button type="submit" class="btn btn-primary">Ediit</button>
-	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
->>>>>>> parent of 0395801 (Update)
+<div class="d-flex justify-content-center align-content-center">
+	<div class="my-3">
+		<div class="login-mod d-flex flex-column container border border-3 border-primary rounded-3 p-5 shadow">
+			<h2>Edit Appointment</h2>
+			<form asp-action="Edit" method="post" class="d-flex flex-column gap-2">
+				<input type="hidden" asp-for="AppointmentID" />
+
+				<div class="d-flex">
+					<div class="form-group w-75">
+						<label asp-for="AppointmentDateTime" class="control-label">Dates</label>
+						<input asp-for="AppointmentDateTime" class="form-control" type="datetime-local" />
+						<span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="AppointmentStatus" class="control-label">Status</label>
+						<select asp-for="AppointmentStatus" class="form-control">
+							<option value="Scheduled">Scheduled</option>
+							<option value="Confirmed">Confirmed</option>
+							<option value="Cancelled">Cancelled</option>
+							<option value="Completed">Completed</option>
+						</select>
+						<span asp-validation-for="AppointmentStatus" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="AppointmentReason" class="control-label">Reason for this Appointment</label>
+					<textarea asp-for="AppointmentReason" class="form-control"></textarea>
+					<span asp-validation-for="AppointmentReason" class="text-danger"></span>
+				</div>
+
+				<div class="d-flex">
+					@if (User.IsInRole("Doctor"))
+					{
+						<input asp-for="DoctorID" type="hidden" />
+					}
+					else
+					{
+						<div class="form-group">
+							<label asp-for="DoctorID">Doctor Id</label>
+							<input asp-for="DoctorID" class="form-control" class="form-control" list="doctorlist" placeholder="Search Doctor" />
+							<datalist id="doctorlist">
+								@foreach (var doctor in (List<Toothcare_Appointment_System.Models.Doctors>)ViewData["Doctors"])
+								{
+									<option value="@doctor.DoctorID">@doctor.DoctorName</option>
+								}
+							</datalist>
+						</div>
+					}
+
+					<div class="form-group">
+						<label asp-for="ICNumber">Patient IC number</label>
+						<input asp-for="ICNumber" class="form-control" class="form-control" list="patientlist" placeholder="Search Patient" />
+						<datalist id="patientlist">
+							@foreach (var patient in (List<Toothcare_Appointment_System.Models.Patients>)ViewData["Patients"])
+							{
+								<option value="@patient.ICNumber">@patient.PatientName</option>
+							}
+						</datalist>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="AppointmentType" class="control-label">Appointment Type</label>
+					<input asp-for="AppointmentType" class="form-control" />
+					<span asp-validation-for="AppointmentType" class="text-danger"></span>
+				</div>
+
+				@if (User.IsInRole("Doctor") | User.IsInRole("Admin"))
+				{
+					<div class="form-group">
+						<label asp-for="RoomNumber" class="control-label">Room Number</label>
+						<input asp-for="RoomNumber" class="form-control" type="number" />
+						<span asp-validation-for="RoomNumber" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="AppointmentNotes" class="control-label">Doctor Notes</label>
+						<textarea asp-for="AppointmentNotes" class="form-control"></textarea>
+						<span asp-validation-for="AppointmentNotes" class="text-danger"></span>
+					</div>
+				}
+
+				<div class="d-flex gap-3 justify-content-center mt-2">
+					<button class="btn btn-secondary w-50" onclick="history.back()">Back</button>
+					<button type="submit" class="btn btn-primary w-50">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 <script>
-    function updatePatient(){
-        var input, filter, option, i;
-        input = document.getElementById("filterPatient");
-        filter = input.value.toUpperCase();
-        option = document.getElementsByTagName("option");
-        for (i = 0; i < option.length; i++) {
-            if (option[i].innerHTML.toUpperCase().indexOf(filter) > -1 || option[i].value.indexOf(filter) > -1) {
-                option[i].style.display = "";
-            } else {
-                option[i].style.display = "none";
-            }
-        }
-    }
+	function updatePatient(){
+		var input, filter, option, i;
+		input = document.getElementById("filterPatient");
+		filter = input.value.toUpperCase();
+		option = document.getElementsByTagName("option");
+		for (i = 0; i < option.length; i++) {
+			if (option[i].innerHTML.toUpperCase().indexOf(filter) > -1 || option[i].value.indexOf(filter) >-1) {
+				option[i].style.display = "";
+			} else {
+				option[i].style.display = "none";
+			}
+		}
+	}
 </script>

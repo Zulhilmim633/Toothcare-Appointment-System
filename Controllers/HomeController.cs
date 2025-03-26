@@ -26,6 +26,18 @@ public class HomeController : Controller
         return View("~/Views/Home/Privacy.cshtml");
     }
 
+    [HttpGet("About")]
+    public IActionResult About()
+    {
+        return View("~/Views/Home/About.cshtml");
+    }
+
+    [HttpGet("FAQs")]
+    public IActionResult FAQs()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
